@@ -1,0 +1,11 @@
+services:
+  vite:
+    build:
+      context: ./
+      dockerfile: ./deploy/local/vue.Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 5173:5173
+    command: sh -c "npm i && npm run dev -- --host"
+
