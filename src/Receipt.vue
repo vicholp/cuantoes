@@ -14,7 +14,7 @@
     <div class="flex flex-col gap-5">
       <div class="flex flex-col gap-1">
         <div class="flex items-center">
-          <input type="text" v-model="claimantName" placeholder="Perico Los Palones" class="dark:bg-neutral-800 bg-neutral-200 p-2 w-full h-10 outline-none border-none" @input="claimantNameEdited = true" >
+          <input type="text" v-model="claimantName" placeholder="Perico Los Palotes" class="dark:bg-neutral-800 bg-neutral-200 p-2 w-full h-10 outline-none border-none" @input="claimantNameEdited = true" >
           <div v-if="!accountCreated || claimantNameEdited"
           
           @click="updateName()" :class="`cursor-pointer px-2 ${accountCreated ? 'bg-neutral-200 dark:bg-neutral-800 text-red-800' : 'bg-red-800 text-white'} h-10 flex items-center justify-center  font-bold text-sm`">
@@ -72,6 +72,8 @@
             </div>
           </div>
         </div>
+        <div class="h-0.5 w-full dark:bg-neutral-500">
+        </div>
         <div class="bg-neutral-200 dark:bg-neutral-800 p-4 flex gap-4 flex-col font-mono" v-if="shouldShowUnclaimed && unclaimedItems.length">
           <div class="font-bold">
             pendientes
@@ -126,6 +128,10 @@
               </div>
             </div>  
           </div>
+        </div>
+        <div class="px-5 py-3 gap-5 text-sm text-center">
+          Hecho por personas 🍖.
+          Revisa el codigo en <a href="https://github.com/vicholp/cuantoes" class="underline">github</a>.
         </div>
         <div class="flex justify-between font-bold sticky bottom-0 py-5 dark:bg-neutral-900 bg-neutral-100 border-t-2 font-mono" v-if="myItemsTotal > 0">
           <div>

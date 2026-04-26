@@ -40,6 +40,10 @@
           <span class="font-black text-transparent bg-clip-text text-xl bg-linear-to-r from-cyan-400 via-blue-400 to-purple-500 animate-pulse drop-shadow-lg">IA ✦</span>
         </div>
       </div>
+      <div class="px-5 py-3 gap-5 text-sm text-center mt-5">
+        Hecho por personas 🍖.
+        Revisa el codigo en <a href="https://github.com/vicholp/cuantoes" class="underline">github</a>.
+      </div>
     </div>
   </div>  
 </template>
@@ -52,7 +56,7 @@ export default {
     return {
       imageBase64: null,
       sending: false,
-message: null,
+      message: null,
     };
   },
   methods: {
@@ -74,7 +78,7 @@ message: null,
       try {
         if (this.imageBase64) {
           this.sending = true;
-this.message = null;
+          this.message = null;
           const response = await createReceipt({"image_base64": this.imageBase64});
           this.$router.push(`/${response.data.receipt_id}`); 
         }
