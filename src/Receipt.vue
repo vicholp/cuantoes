@@ -130,7 +130,7 @@
           </div>
         </div>
         <div class="px-5 py-3 gap-5 text-sm text-center">
-          Hecho por personas 🍖.
+          Hecho por personas 🍖, funciona con Anthropic 🤖.
           Revisa el codigo en <a href="https://github.com/vicholp/cuantoes" class="underline">github</a>.
         </div>
         <div class="flex justify-between font-bold sticky bottom-0 py-5 dark:bg-neutral-900 bg-neutral-100 border-t-2 font-mono" v-if="myItemsTotal > 0">

@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="px-5 py-3 gap-5 text-sm text-center mt-5">
-        Hecho por personas 🍖.
+        Hecho por personas 🍖, funciona con Anthropic 🤖.
         Revisa el codigo en <a href="https://github.com/vicholp/cuantoes" class="underline">github</a>.
       </div>
     </div>
