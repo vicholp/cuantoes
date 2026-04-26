@@ -21,6 +21,16 @@
             {{ accountCreated ? "actualizar" : "iniciar" }}
           </div>
         </div>
+        <div class="flex font-mono text-sm" v-if="accountCreated">
+          <button
+            v-for="f in ['todos', 'míos', 'pendientes']"
+            :key="f"
+            @click="filter = f"
+            :class="`flex-1 py-2 font-bold transition-colors ${filter === f ? 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black' : 'text-neutral-500 dark:text-neutral-400'}`"
+          >
+            {{ f }}
+          </button>
+        </div>
       </div>
       <div class="px-4 flex flex-col justify-center pt-4">
         <div class="flex justify-between font-mono font-bold text-black/60 dark:text-white/60 text-sm">
@@ -34,7 +44,7 @@
       </div>
       <div class="flex flex-col gap-5 border-t border-neutral-400 dark:border-neutral-600"  v-if="accountCreated">
         <div class="flex flex-col ">
-          <div v-for="item in items" :key="item._id" :class="`border-neutral-400 dark:border-neutral-600 border-b p-4 ${itemClaimedByMe(item) ? 'bg-neutral-200 dark:bg-neutral-800' : 'border-neutral-400 dark:border-neutral-600'}`">
+          <div v-for="item in filteredItems" :key="item._id" :class="`border-neutral-400 dark:border-neutral-600 border-b p-4 ${itemClaimedByMe(item) ? 'bg-neutral-200 dark:bg-neutral-800' : 'border-neutral-400 dark:border-neutral-600'}`">
             <div class="flex flex-col justify-center" @click="claim(item)">
               <div class="flex justify-between">
                 <div>
@@ -147,6 +157,7 @@ export default {
       accountCreated: false,
       refreshInterval: null,
       claimantNameEdited: false,
+      filter: 'todos',
     };
   },
   computed: {
@@ -175,6 +186,12 @@ export default {
     itemClaimedByMe(item) {
       return (item) => item.claims.some((claim) => claim.claimant.uuid === this.uuid);
     },
+    filteredItems() {
+      if (!this.items) return [];
+      if (this.filter === 'míos') return this.myItems;
+      if (this.filter === 'pendientes') return this.unclaimedItems;
+      return this.items;
+    },
   },
   methods: {
     truncate(text, length = 20) {
@@ -193,6 +210,7 @@ export default {
         localStorage.setItem("claimant_name", this.claimantName);
         this.accountCreated = true;
         this.claimantNameEdited = false;
+        this.filter = 'todos';
         this.fetchItems();
       }).catch((error) => {
         console.error("Error updating name:", error);
