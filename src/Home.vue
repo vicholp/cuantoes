@@ -11,6 +11,11 @@
     </div>
     <div >
       <img v-if="imageBase64" :src="imageBase64 ? `data:image/png;base64,${imageBase64}` : null" alt="Imagen seleccionada"  class="mt-4 w-full h-auto"/>
+      <div>
+        <p v-if="message" class="dark:bg-red-800 dark:border-b-white text-center dark:border-b-2 dark:text-white text-sm font-bold p-2">
+          {{ message }}
+        </p>
+      </div>
       <div class="flex" v-if="!sending">
         <div class="w-full">
           <label for="imageInput" >
@@ -47,6 +52,7 @@ export default {
     return {
       imageBase64: null,
       sending: false,
+message: null,
     };
   },
   methods: {
@@ -68,12 +74,14 @@ export default {
       try {
         if (this.imageBase64) {
           this.sending = true;
+this.message = null;
           const response = await createReceipt({"image_base64": this.imageBase64});
           this.$router.push(`/${response.data.receipt_id}`); 
         }
 
       } catch (error) {
-        this.message = "Error al crear el recibo: " + error.message;
+        this.message = "Ocurrio un error al cargar la imagen, intenta nuevamente";
+        this.sending = false;
       }
     }
   }
