@@ -36,7 +36,7 @@
             <span class="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
             <span class="w-2 h-2 bg-cyan-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
           </div>
-          <span class="text-xs tracking-[0.3em] uppercase text-neutral-400">Creando boleta con</span>
+          <span class="text-xs tracking-[0.3em] uppercase text-neutral-400">Revisando boleta con</span>
           <span class="font-black text-transparent bg-clip-text text-xl bg-linear-to-r from-cyan-400 via-blue-400 to-purple-500 animate-pulse drop-shadow-lg">IA ✦</span>
         </div>
       </div>
