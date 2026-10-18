@@ -8,7 +8,7 @@
         class="cursor-pointer h-10 flex items-center dark:text-white font-bold text-sm font-mono text-center">
         copiar link
       </div>
-      <div @click="copyLink()" v-else
+      <div v-else
         class="cursor-pointer h-10 flex items-center dark:text-white  justify-center underline font-bold text-sm font-mono text-center">
         link copiado
       </div>
@@ -57,7 +57,7 @@
               <div class="min-h-10 flex items-center">
                 <div class="flex gap-1 pt-2 flex-wrap" v-if="item.claims.length">
                   <div v-for="claim in item.claims"
-                    class="border border-neutral-800 dark:border-neutral-200 font-bold rounded-full px-2 py-1 dark:text-white text-sm w-min"
+                    class="border border-neutral-800 dark:border-neutral-200 font-bold rounded-full px-2 py-1 dark:text-white text-sm w-min text-nowrap"
                     :key="claim._id">
                     {{ claim.claimant.name }}
                   </div>
@@ -125,10 +125,17 @@
           </div>
         </div>
         <div class="bg-neutral-200 dark:bg-neutral-800 px-4" v-if="myItemsTotal">
-          <div class=" min-h-[70vh] py-10 justify-evenly flex gap-4 flex-col font-mono">
+          <div class="flex items-center gap-5">
+            <div class="h-0.5 w-full bg-neutral-500"></div>
+            <div class="text-center text-neutral-500 font-bold py-5">
+              TOTAL
+            </div>
+            <div class="h-0.5 w-full bg-neutral-500"></div>
+          </div>
+          <div class=" min-h-[60vh] py-10 justify-evenly flex gap-4 flex-col font-mono">
             <div class="flex flex-col items-center gap-5 justify-between" v-if="!totalWithTip">
               <div>
-                Total sin propina
+                sin propina
               </div>
               <div class="text-6xl font-bold">
                 {{ format(myItemsTotal) }}
@@ -136,7 +143,7 @@
             </div>
             <div class="flex flex-col items-center gap-5 justify-between" v-if="totalWithTip">
               <div>
-                Total con propina - 10%
+                con propina - 10%
               </div>
               <div class="text-6xl font-bold">
                 {{ format(myItemsTotal * 1.1) }}
