@@ -122,6 +122,56 @@
                 {{ format(item.price / item.claims.length) }}
               </div>
             </div>
+            <div class="flex justify-between gap-4" v-if="differenceBetweenTotals">
+              <div class="text-ellipsis overflow-hidden text-nowrap flex gap-4">
+                Diferencia
+                <div class="text-neutral-500 underline" @click="showDetailClaimants = !showDetailClaimants">
+                  ver detalle
+                </div>
+              </div>
+              <div class="text-nowrap">
+                {{ format(differenceBetweenTotals) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-neutral-200 dark:bg-neutral-800 p-4 flex gap-4 flex-col font-mono" v-if="showDetailClaimants">
+          <div class="font-bold">
+            detalle participantes
+          </div>
+          <div class="">
+            <div v-for="item in claimantsTotals" class="flex justify-between gap-4" :key="item._id">
+              <div class="text-ellipsis overflow-hidden text-nowrap">
+                {{ item.name }}
+              </div>
+              <div class="text-nowrap">
+                {{ format(item.total) }}
+              </div>
+            </div>
+            <div class="flex justify-between gap-4">
+              <div class="text-ellipsis overflow-hidden text-nowrap">
+                Suma
+              </div>
+              <div class="text-nowrap">
+                {{ format(claimantsSum) }}
+              </div>
+            </div>
+            <div class="flex justify-between gap-4 pt-4">
+              <div class="text-ellipsis overflow-hidden text-nowrap">
+                Total boleta
+              </div>
+              <div class="text-nowrap">
+                {{ format(total) }}
+              </div>
+            </div>
+            <div class="flex justify-between gap-4">
+              <div class="text-ellipsis overflow-hidden text-nowrap">
+                Diferencia
+              </div>
+              <div class="text-nowrap">
+                {{ format(differenceBetweenTotals) }}
+              </div>
+            </div>
           </div>
         </div>
         <div class="bg-neutral-200 dark:bg-neutral-800 px-4" v-if="myItemsTotal">
@@ -195,6 +245,7 @@ export default {
       totalWithTip: false,
       linkCopied: false,
       linkCopiedTimeout: null,
+      showDetailClaimants: false,
     };
   },
   computed: {
@@ -214,7 +265,7 @@ export default {
       return this.items.filter((item) => item.claims.length === 0);
     },
     myItemsTotal() {
-      return this.myItems.reduce((total, item) => total + (item.price / item.claims.length), 0);
+      return this.myItems.reduce((total, item) => total + Math.round(item.price / item.claims.length), 0) + this.differenceBetweenTotals;
     },
     myItems() {
       if (!this.items) return [];
@@ -229,6 +280,39 @@ export default {
       if (this.filter === 'pendientes') return this.unclaimedItems;
       return this.items;
     },
+    claimantsTotals() {
+      if (!this.items) return {};
+
+      const claimants = {};
+
+      for (const item of this.items) {
+        for (const claim of item.claims) {
+          const claimant = claim.claimant;
+          claimants[claimant.uuid] = {
+            name: claimant.name,
+            total: (claimants[claimant.uuid]?.total ?? 0) + Math.round(item.price / item.claims.length)
+          };
+        }
+      }
+
+      return Object.values(claimants);
+    },
+    claimantsSum() {
+      return this.claimantsTotals?.reduce((sum, i) => sum + i.total, 0)
+    },
+    amITheFirst() {
+      return this.items?.find(item => item?.claims?.length)?.claims?.[0].claimant?.uuid == this.uuid;
+    },
+    differenceBetweenTotals() {
+      if (!this.amITheFirst) return 0;
+
+      return this.items?.map(function (item) {
+        const individual = Math.round(item.price / item.claims.length);
+        const total = item.claims.length * individual;
+
+        return item.price - total;
+      })?.reduce((sum, i) => i ? sum + i : sum, 0);
+    }
   },
   methods: {
     truncate(text, length = 20) {
